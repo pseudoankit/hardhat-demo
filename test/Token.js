@@ -9,8 +9,25 @@ describe("Token Contract", function () {
         const token = await ethers.getContractFactory("Token");
         const hhToken = await token.deploy();
 
-        const ownerBalance = await hhToken.balanceOf(owner.address);
+        expect(await hhToken.totalSupply()).to.equal(await hhToken.balanceOf(owner.address));
+    });
 
-        expect(await hhToken.totalSupply()).to.equal(ownerBalance);
+    it("should not be able to transfer funds if sender has less balance than amount sending", () => {
+
+    });
+
+    it("once funds are transferred sender account should be deducted with the amount sent", async () => {
+        const value = 10;
+        const [owner, _to] = await ethers.getSigners();
+        const token = await ethers.getContractFactory("Token");
+        const hhToken = await token.deploy();
+
+        await hhToken.transfer(_to.address, value);
+
+        expect(value).to.equal(await hhToken.balanceOf(_to.address));
+    });
+
+    it("once funds are transferred reciever account should be added with the amount sent", () => {
+
     });
 });

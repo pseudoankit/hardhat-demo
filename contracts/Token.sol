@@ -14,7 +14,13 @@ contract Token {
         balances[owner] = totalSupply;
     }
 
-    function transfer(address _to, uint _amount) external {}
+    function transfer(address _to, uint _amount) external {
+        uint currentAmount = balances[_to];
+        require(currentAmount >= _amount, "low balance cannot transfer funds");
+
+        balances[msg.sender] -= _amount;
+        balances[_to] += _amount;
+    }
 
     function balanceOf(address acc) external view returns (uint) {
         return balances[acc];
