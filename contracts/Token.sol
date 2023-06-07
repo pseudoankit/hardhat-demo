@@ -15,7 +15,7 @@ contract Token {
     }
 
     function transfer(address _to, uint _amount) external {
-        uint currentAmount = balances[_to];
+        uint currentAmount = balances[msg.sender];
         require(currentAmount >= _amount, "low balance cannot transfer funds");
 
         balances[msg.sender] -= _amount;
